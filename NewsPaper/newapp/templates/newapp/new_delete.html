@@ -5,16 +5,16 @@
 
 {% block content %}
 
-<h3>Delete this new?</h3>
+<h3>Удалить новость/статью?</h3>
 <div class="card">
   <div class="card-header">
-    <h3>{{ new.title }}</h3>
+    <h4>{{ news.title }}</h4>
     <div>
-      Author: <span class="badge bg-info">{{ new.author }}</span> Type:
-      <span class="badge bg-info">{{ new.get_dateCreation_display }}</span>
+      Автор: <span class="badge bg-info">{{ news.author }}</span> Тип:
+      <span class="badge bg-info">{{ news.get_categoryType_display }}</span>
     </div>
   </div>
-  <div class="card-body">{{ new.text }}</div>
+  <div class="card-body">{{ news.text }}</div>
 </div>
 <form method="POST">
   {% csrf_token %}

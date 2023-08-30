@@ -6,6 +6,7 @@ from datetime import datetime
 from django.utils import timezone
 from django.shortcuts import render
 from django.views import View
+from django.db.models import QuerySet
 from django.core.paginator import Paginator # Импортируем класс, позволяющий удобно осуществлять постраничный вывод
 from .filters import PostFilter # импортируем недавно написанный фильтр
 from .forms import PostForm # импортируем нашу форму
@@ -16,12 +17,15 @@ class PostList(ListView):
     context_object_name = 'news'  # это имя списка, в котором будут лежать все объекты, его надо указать, чтобы обратиться к самому списку объектов через HTML-шаблон
     #queryset = Post.objects.order_by('-dateCreation')
     ordering = ['-dateCreation']  # сортировка по дате в порядке убывания
-    paginate_by = 1  # поставим постраничный вывод в один элемент
+    paginate_by = 10
+
+    def get_queryset(self) -> QuerySet(any):
+        post_filter = PostFilter(self.request.GET, queryset=Post.objects.all())
+        return post_filter.qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['time_now'] = timezone.localtime(timezone.now()) # добавим переменную текущей даты time_now
-        context['value1'] = None # добавим ещё одну пустую переменную, чтобы на её примере посмотреть работу другого фильтра
         context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())  # вписываем наш фильтр в контекст
         return context
 
@@ -55,11 +59,13 @@ class News(View):
 class PostCreateView(CreateView):
     template_name = 'newapp/new_create.html'
     form_class = PostForm
+    context_object_name = 'news'
 
     # дженерик для редактирования объекта
 class PostUpdateView(UpdateView):
     template_name = 'newapp/new_create.html'
     form_class = PostForm
+    context_object_name = 'news'
 
         # метод get_object мы используем вместо queryset, чтобы получить информацию об объекте который мы собираемся редактировать
     def get_object(self, **kwargs):
@@ -71,5 +77,6 @@ class PostDeleteView(DeleteView):
     template_name = 'newapp/new_delete.html'
     queryset = Post.objects.all()
     success_url = reverse_lazy('newapp:news')
+    context_object_name = 'news'
 
 

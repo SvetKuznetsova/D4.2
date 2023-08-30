@@ -5,15 +5,15 @@
 {% block content %}
 <div class="card">
   <div class="card-header">
-    <h3>{{ new.title }}</h3>
+    <h3>{{ news.title }}</h3>
     <div>
-      Author: <span class="badge bg-info">{{ new.author }}</span>
-      Type: <span class="badge bg-info">{{ new.get_dateCreation_display }}</span>
+      Автор: <span class="badge bg-info">{{ news.author }}</span>
+      Тип: <span class="badge bg-info">{{ news.get_categoryType_display }}</span>
     </div>
   </div>
-  <div class="card-body">{{ new.text }}</div>
+  <div class="card-body">{{ news.text }}</div>
 </div>
-<a href="{% url 'newapp:news' %}" class="btn btn-primary my-3">Home</a>
+<a href="{% url 'newapp:news' %}" class="btn btn-primary my-3">На главную</a>
 
 
 {% endblock content %}

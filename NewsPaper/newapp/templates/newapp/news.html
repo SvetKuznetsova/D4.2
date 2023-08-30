@@ -36,7 +36,7 @@ News
 
 
     </tr>
-    {% for new in filter.qs %}
+    {% for new in news %}
     <tr>
         <td>
             <a href="{% url 'newapp:new_detail' new.id %}">
@@ -54,15 +54,16 @@ News
         </td>
     <td>
        <a href="{% url 'newapp:new_update' new.id %}">
-           Update
+           Редактировать
        </a>
        <a href="{% url 'newapp:new_delete' new.id %}">
-           Delete
+           Удалить
        </a>
    </td>
     </tr>
     {% endfor %}
 </table>
+<a href="{% url 'newapp:new_create' %}" class="btn btn-primary my-3">Добавить новость/статью</a>
 {% include 'newapp/parts/paginator.html' %}
 {% else %}
 <!-- Если новостей нет, то сообщаем об этом пользователю  -->
