@@ -1,0 +1,24 @@
+{% extends 'layout/base.html' %} 
+{% block title %} 
+  New delete
+{% endblock title %} 
+
+{% block content %}
+
+<h3>Delete this new?</h3>
+<div class="card">
+  <div class="card-header">
+    <h3>{{ new.title }}</h3>
+    <div>
+      Author: <span class="badge bg-info">{{ new.author }}</span> Type:
+      <span class="badge bg-info">{{ new.get_dateCreation_display }}</span>
+    </div>
+  </div>
+  <div class="card-body">{{ new.text }}</div>
+</div>
+<form method="POST">
+  {% csrf_token %}
+  <input class="btn btn-danger my-3" type="submit" value="Delete" />
+</form>
+
+{% endblock content %}

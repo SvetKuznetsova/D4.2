@@ -22,6 +22,9 @@ class Author(models.Model):
         self.ratingAuthor = pRat*3 + cRat + aRat
         self.save()
 
+    def __str__(self):
+        return self.authorUser.username
+
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
 
@@ -41,9 +44,6 @@ class Post(models.Model):
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
 
-    def __str__(self):
-        return self.author.username
-
     def like(self):
         self.rating += 1
         self.save()
@@ -58,6 +58,8 @@ class Post(models.Model):
     def get_category_type(self):
         return self.get_categoryType_display()
 
+    def get_absolute_url(self):  # добавим абсолютный путь, чтобы после создания нас перебрасывало на страницу с товаром
+        return f'/new/{self.id}'
 
 class PostCategory(models.Model):
     postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)

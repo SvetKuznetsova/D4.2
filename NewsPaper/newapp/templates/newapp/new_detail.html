@@ -1,0 +1,19 @@
+{% extends 'layout/base.html' %} 
+{% block title %} 
+  New
+{% endblock title %}
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3>{{ new.title }}</h3>
+    <div>
+      Author: <span class="badge bg-info">{{ new.author }}</span>
+      Type: <span class="badge bg-info">{{ new.get_dateCreation_display }}</span>
+    </div>
+  </div>
+  <div class="card-body">{{ new.text }}</div>
+</div>
+<a href="{% url 'newapp:news' %}" class="btn btn-primary my-3">Home</a>
+
+
+{% endblock content %}

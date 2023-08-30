@@ -13,11 +13,17 @@ News
 <h3>{{ time_now }}</h3>
 <!-- Здесь мы применяем фильтр date. Он очень похож на метод strftime у даты. С его помощью мы можем выводить дату в нужном нам формате -->
 
-<h3> {{ value1|default_if_none:"ничего" }} </h3>
-<!-- Здесь, если в переменной value1 будет записано None, то выведется текст НИЧЕГО -->
+<form method="GET">
+   {{ filter.form }}
+   <!-- Форму от фильтров за нас сделает Django. А вот кнопку, увы, придётся делать самим -->
+   <input class="btn btn-primary" type="submit" value="Найти">
+</form>
 
 <table class="table">
     <tr>
+        <th scope="col">
+            Автор
+        </th>
         <th scope="col">
             Заголовок
         </th>
@@ -30,8 +36,13 @@ News
 
 
     </tr>
-    {% for new in news %}
+    {% for new in filter.qs %}
     <tr>
+        <td>
+            <a href="{% url 'newapp:new_detail' new.id %}">
+            {{ new.author|safe }}
+            </a>
+        </td>
         <td>
             {{ new.title|safe|censor }}
         </td>
@@ -41,11 +52,18 @@ News
         <td>
             {{ new.text|truncatechars:50|censor }}
         </td>
-
+    <td>
+       <a href="{% url 'newapp:new_update' new.id %}">
+           Update
+       </a>
+       <a href="{% url 'newapp:new_delete' new.id %}">
+           Delete
+       </a>
+   </td>
     </tr>
     {% endfor %}
 </table>
-
+{% include 'newapp/parts/paginator.html' %}
 {% else %}
 <!-- Если новостей нет, то сообщаем об этом пользователю  -->
 <h2>No news yet.</h2>

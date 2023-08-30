@@ -9,7 +9,7 @@ class PostFilter(FilterSet):
         model = Post
       #  fields = ('author', 'categoryType', 'title', 'dateCreation')  # поля, которые мы будем фильтровать (т.е. отбирать по каким-то критериям, имена берутся из моделей)
         fields = {
-            'author': ['icontains'],
+            'author': ['exact'],
             'title': ['icontains'],
             'dateCreation': ['gt']
         }
