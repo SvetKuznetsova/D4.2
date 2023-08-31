@@ -10,7 +10,7 @@ class PostForm(ModelForm):
         model = Post
         fields = ['author', 'title', 'categoryType', 'text']
         widgets = {
-            'author' : forms.Select(attrs={
+            'author' : forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Введите имя автора'
           }),

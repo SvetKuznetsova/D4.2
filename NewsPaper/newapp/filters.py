@@ -7,7 +7,7 @@ from django_filters import CharFilter
 class PostFilter(FilterSet):
     author = filters.CharFilter(label='Автор')
     title = filters.CharFilter(label='Заголовок')
-    categoryType = filters.ModelChoiceFilter(label='Категория', queryset=Category.objects.all())
+    dateCreation = filters.DateFilter(label='Дата')
 
     class Meta:
         model = Post
