@@ -10,13 +10,12 @@ class PostForm(ModelForm):
         model = Post
         fields = ['author', 'title', 'categoryType', 'text']
         widgets = {
-            'author' : forms.TextInput(attrs={
+            'author' : forms.Select(attrs={
             'class': 'form-control',
             'placeholder': 'Введите имя автора'
           }),
           'title' : forms.TextInput(attrs={
             'class': 'form-control',
-
           }),
           'categoryType' : forms.Select(attrs={
             'class': 'form-control',
@@ -24,4 +23,10 @@ class PostForm(ModelForm):
           'text' : forms.Textarea(attrs={
             'class': 'form-control',
           }),
+        }
+        labels={
+            'author':'Автор',
+            'title':'Заголовок',
+            'categoryType':'Категория',
+            'text':'Текст',
         }

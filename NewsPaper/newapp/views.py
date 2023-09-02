@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView # импоритируем необходимые дженерики
 
-from .models import Post
+from .models import Post, Author
 from datetime import datetime
 from django.utils import timezone
 from django.shortcuts import render
@@ -16,12 +16,12 @@ class PostList(ListView):
     template_name = 'newapp/news.html'  # указываем имя шаблона, в котором будет лежать HTML, в нём будут все инструкции о том, как именно пользователю должны вывестись наши объекты
     context_object_name = 'news'  # это имя списка, в котором будут лежать все объекты, его надо указать, чтобы обратиться к самому списку объектов через HTML-шаблон
     #queryset = Post.objects.order_by('-dateCreation')
-    ordering = ['-dateCreation']  # сортировка по дате в порядке убывания
+   # ordering = ['-dateCreation']  # сортировка по дате в порядке убывания
     paginate_by = 10
 
     def get_queryset(self) -> QuerySet(any):
         post_filter = PostFilter(self.request.GET, queryset=Post.objects.all())
-        return post_filter.qs
+        return post_filter.qs.order_by('-dateCreation')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,6 +60,15 @@ class PostCreateView(CreateView):
     template_name = 'newapp/new_create.html'
     form_class = PostForm
     context_object_name = 'news'
+
+    def form_valid(self, form):
+        author_name = form.cleaned_data['author']
+
+        author, created = Author.objects.get_or_create(name=author_name)
+
+        form.instance.author = author
+
+        return super().form_valid(form)
 
     # дженерик для редактирования объекта
 class PostUpdateView(UpdateView):
